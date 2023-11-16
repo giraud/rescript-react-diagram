@@ -27,7 +27,7 @@ module Map = {
 
 // pointer events are not declared in React bindings, need a workaround until ReactScript is updated...
 module WithPointerEvents = {
-  type mouseEvent = (. ReactEvent.Mouse.t) => unit
+  type mouseEvent = ReactEvent.Mouse.t => unit
 
   @react.component
   let make = (
@@ -97,8 +97,8 @@ let make = (
       | (Some(reset), Some(fitToView)) =>
         let _ = Js_global.setTimeout(() => fitToView(), 0)
         Some({
-          reset: reset,
-          fitToView: fitToView,
+          reset,
+          fitToView,
         })
       | _ => None
       }
@@ -174,15 +174,15 @@ let make = (
         }
         l->Diagram__Layout.setDisplayBBox(boundingBox)
         l->Diagram__Layout.setOrientation(orientation)
-        setResetFn(._ => Some(update(true, false, false)))
-        setFitToViewFn(._ => Some(update(true, true, false)))
-        setResizeFn(._ => Some(update(false, false, true)))
+        setResetFn(_ => Some(update(true, false, false, ...)))
+        setFitToViewFn(_ => Some(update(true, true, false, ...)))
+        setResizeFn(_ => Some(update(false, false, true, ...)))
       })
     | None => ()
     }
   }
 
-  let onPointerDown = (. e) => {
+  let onPointerDown = e => {
     let capture = () =>
       e
       ->Diagram__Dom.mouseEventTarget
@@ -232,7 +232,7 @@ let make = (
     }
   }
 
-  let slide = (. e) =>
+  let slide = e =>
     if rectangleZooming.current {
       let (px, py, w, h) = clickCoordinates.current
 
@@ -314,7 +314,7 @@ let make = (
       }
     }
 
-  let onPointerUp = (. e) => {
+  let onPointerUp = e => {
     let release = () =>
       e
       ->Diagram__Dom.mouseEventTarget
@@ -420,15 +420,16 @@ let make = (
     <div
       ref={ReactDOM.Ref.callbackDomRef(initRender)}
       ?className
-      style={ReactDOM.Style.make(~width?, ~height?, ~position="relative", ~overflow="hidden", ())}>
-      <div style={ReactDOM.Style.make(~position="relative", ~transformOrigin="0 0", ())} />
+      style={{?JsxDOMStyle.width, ?height, position: "relative", overflow: "hidden"}}>
+      <div style={{JsxDOMStyle.position: "relative", transformOrigin: "0 0"}} />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 50 50"
         width="50px"
         height="50px"
-        style={ReactDOM.Style.make(~pointerEvents="none", ~display="none", ())}>
-        <circle cx="25" cy="25" r="12" fill="none" /> <polygon />
+        style={{JsxDOMStyle.pointerEvents: "none", display: "none"}}>
+        <circle cx="25" cy="25" r="12" fill="none" />
+        <polygon />
       </svg>
     </div>
   </WithPointerEvents>

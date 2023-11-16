@@ -117,7 +117,7 @@ let runLayout = rootContainer => {
 
   // compute diagram boundingBox
   transform->Diagram__Transform.resetBBox
-  layout->Diagram__Layout.processNodes((. _, nodeInfo) =>
+  layout->Diagram__Layout.processNodes((_, nodeInfo) =>
     transform->Diagram__Transform.computeBBox(
       nodeInfo.x,
       nodeInfo.y,
@@ -125,7 +125,7 @@ let runLayout = rootContainer => {
       nodeInfo.height,
     )
   )
-  layout->Diagram__Layout.processEdges((. _, edgeInfo) =>
+  layout->Diagram__Layout.processEdges((_, edgeInfo) =>
     // Use label bbox if it exist, use points bbox else
     switch (edgeInfo.x, edgeInfo.y) {
     | (Some(labelX), Some(labelY)) =>

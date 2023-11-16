@@ -57,7 +57,7 @@ let processNodes = (layout, fn) =>
   ->Belt.Array.forEach(id =>
     switch layout.engine.contents->Diagram__Dagre.node(id)->Js.toOption {
     | None => () //Js.log("Can't find node info for " ++ id)
-    | Some(nodeInfo) => fn(. id, nodeInfo)
+    | Some(nodeInfo) => fn(id, nodeInfo)
     }
   )
 
@@ -72,7 +72,7 @@ let processEdges = (layout, fn) =>
     | None => () //Js.log("Can't find edge info for " ++ edge.v ++ " " ++ edge.w)
     | Some(edgeInfo) =>
       // fix pb in dagre where number can be NaN
-      fn(.
+      fn(
         id,
         {
           ...edgeInfo,
@@ -96,7 +96,7 @@ let run = (layout, container) => {
   Diagram__Dagre.layout(layout.engine.contents)
 
   // Process all nodes in Dom and adapt styles
-  layout->processNodes((. id, node) =>
+  layout->processNodes((id, node) =>
     switch container->queryNode(id) {
     | None => ()
     | Some(domNode) =>
@@ -107,7 +107,7 @@ let run = (layout, container) => {
   )
 
   // Process all edges and adapt styles and co
-  layout->processEdges((. id, {points} as edgeInfo) =>
+  layout->processEdges((id, {points} as edgeInfo) =>
     switch container->queryEdge(id) {
     | None => ()
     | Some(domEdge) =>

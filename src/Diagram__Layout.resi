@@ -11,8 +11,8 @@ let setOrientation: (t, orientation) => unit
 let setNode: (t, string, float, float) => unit
 let setEdge: (t, string, string, option<string>, float, float, labelPos) => unit
 
-let processNodes: (t, (. string, Diagram__Dagre.nodeInfo) => unit) => unit
-let processEdges: (t, (. string, Diagram__Dagre.edgeInfo) => unit) => unit
+let processNodes: (t, (string, Diagram__Dagre.nodeInfo) => unit) => unit
+let processEdges: (t, (string, Diagram__Dagre.edgeInfo) => unit) => unit
 
 let run: (t, Dom.element) => unit
 let reset: t => unit

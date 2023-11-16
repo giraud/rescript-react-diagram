@@ -14,7 +14,7 @@ let render = (element, container, nodeSep, edgeSep, rankSep, onCreation) => {
       ->Belt.Array.forEach(node => container->Diagram__Dom.removeChild(node))
     )
 
-    let newRoot = Diagram__DOMReconciler.reconciler.createContainer(. container)
+    let newRoot = Diagram__DOMReconciler.reconciler.createContainer(container)
     let transform = Diagram__Transform.make()
     let layout = Diagram__Layout.make(~nodeSep, ~edgeSep, ~rankSep)
 
@@ -27,5 +27,5 @@ let render = (element, container, nodeSep, edgeSep, rankSep, onCreation) => {
     newRoot
   }
 
-  Diagram__DOMReconciler.reconciler.updateContainer(. element, root, Js.Nullable.null, None)
+  Diagram__DOMReconciler.reconciler.updateContainer(element, root, Js.Nullable.null, None)
 }

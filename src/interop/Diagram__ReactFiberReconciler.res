@@ -176,9 +176,9 @@ type hostConfig<'c, 'commit> = {
  The reconciler once it has been created from the host config.
  */
 type t = {
-  createContainer: (. Dom.element) => Dom.element,
+  createContainer: Dom.element => Dom.element,
   updateContainer: (
-    . React.element,
+    React.element,
     Dom.element,
     Js.nullable<Dom.element>,
     option<unit => unit>,
